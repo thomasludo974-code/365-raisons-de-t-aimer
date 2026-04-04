@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>365 Raisons de t'Aimer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --deep:  #0a0608;
+      --rose:  #c0385a;
+      --gold:  #d4a84b;
+      --cream: #fdf5ec;
+      --soft:  rgba(253,245,236,.7);
+      --card:  rgba(255,255,255,.04);
+    }
+
+```
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--deep);
+  min-height: 100vh;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--cream);
+  overflow-x: hidden;
+}
+
+/* Stars */
+.stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.star  { position: absolute; border-radius: 50%; background: white; animation: twinkle var(--d,3s) ease-in-out infinite alternate; }
+@keyframes twinkle { from{opacity:.1;transform:scale(.8)} to{opacity:.85;transform:scale(1.2)} }
+
+/* Main */
+.wrap { position: relative; z-index: 10; max-width: 480px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+
+/* Header */
+.site-header { text-align: center; padding: 2.5rem 0 2rem; }
+.site-title {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  color: var(--cream);
+  line-height: 1.2;
+  text-shadow: 0 0 40px rgba(192,56,90,.3);
+}
+.site-sub {
+  font-size: 1rem;
+  color: rgba(253,245,236,.45);
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  margin-top: .5rem;
+  font-style: italic;
+}
+.gold-line { width: 60px; height: 1px; background: var(--gold); margin: 1.2rem auto; opacity: .5; }
+
+/* Today card */
+.today-card {
+  background: linear-gradient(135deg, rgba(192,56,90,.15), rgba(212,168,75,.08));
+  border: 1px solid rgba(212,168,75,.3);
+  border-top: 2px solid var(--gold);
+  padding: 2rem 1.8rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.today-card::before {
+  content: '✦';
+  position: absolute; top: 10px; left: 14px;
+  color: var(--gold); font-size: .7rem; opacity: .5;
+}
+.today-card::after {
+  content: '✦';
+  position: absolute; top: 10px; right: 14px;
+  color: var(--gold); font-size: .7rem; opacity: .5;
+}
+.today-label {
+  font-size: .7rem;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .8;
+  margin-bottom: .6rem;
+  font-family: 'Cormorant Garamond', serif;
+}
+.today-day {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  color: var(--rose);
+  line-height: 1;
+  margin-bottom: .3rem;
+  text-shadow: 0 0 30px rgba(192,56,90,.4);
+}
+.today-date {
+  font-size: .85rem;
+  color: rgba(253,245,236,.4);
+  letter-spacing: .2em;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+.today-reason {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+  color: var(--cream);
+  line-height: 1.65;
+}
+.today-heart {
+  font-size: 1.5rem;
+  margin-top: 1.2rem;
+  animation: heartBeat 1.5s ease-in-out infinite;
+}
+@keyframes heartBeat {
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+}
+
+/* Progress */
+.progress-wrap { margin-bottom: 2.5rem; }
+.progress-label {
+  display: flex; justify-content: space-between;
+  font-size: .72rem;
+  color: rgba(253,245,236,.35);
+  letter-spacing: .15em;
+  margin-bottom: .5rem;
+}
+.progress-track { background: rgba(255,255,255,.06); height: 4px; border-radius: 2px; }
+.progress-fill  { height: 100%; background: linear-gradient(90deg, var(--rose), var(--gold)); border-radius: 2px; transition: width .8s ease; }
+
+/* Past days grid */
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: rgba(253,245,236,.5);
+  text-align: center;
+  margin-bottom: 1.2rem;
+  letter-spacing: .1em;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: .5rem;
+  margin-bottom: 2rem;
+}
+
+.day-pill {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: .65rem;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  position: relative;
+}
+.day-pill.past {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(212,168,75,.2);
+  color: rgba(253,245,236,.5);
+}
+.day-pill.past:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(212,168,75,.15);
+  border-color: rgba(212,168,75,.45);
+}
+.day-pill.today-pill {
+  background: linear-gradient(135deg, rgba(192,56,90,.3), rgba(212,168,75,.15));
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  box-shadow: 0 0 16px rgba(212,168,75,.2);
+}
+.day-pill.future {
+  background: rgba(255,255,255,.015);
+  border: 1px dashed rgba(255,255,255,.06);
+  color: rgba(255,255,255,.12);
+  cursor: default;
+}
+.pill-num { font-family: 'Playfair Display', serif; font-size: .9rem; line-height: 1; }
+.pill-heart { font-size: .55rem; opacity: .6; margin-top: 2px; }
+
+/* Modal */
+.modal-bg {
+  display: none;
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(5,3,4,.92);
+  align-items: center; justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn .3s ease;
+}
+.modal-bg.open { display: flex; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+.modal {
+  background: linear-gradient(160deg, #1a0e10, #120a0c);
+  border: 1px solid rgba(212,168,75,.3);
+  border-top: 2px solid var(--gold);
+  padding: 2.2rem 1.8rem;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  animation: slideUp .4s cubic-bezier(.22,1,.36,1);
+}
+@keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:none;opacity:1} }
+
+.modal-day   { font-family:'Playfair Display',serif; font-size:2.5rem; color:var(--rose); line-height:1; margin-bottom:.3rem; }
+.modal-date  { font-size:.8rem; color:rgba(253,245,236,.35); letter-spacing:.2em; font-style:italic; margin-bottom:1.4rem; }
+.modal-text  { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(1rem,3vw,1.25rem); color:var(--cream); line-height:1.7; margin-bottom:1.5rem; }
+.modal-close {
+  padding:.55rem 2rem;
+  border: 1px solid rgba(212,168,75,.35);
+  background: transparent;
+  color: rgba(212,168,75,.8);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .85rem;
+  letter-spacing: .2em;
+  cursor: pointer;
+  transition: background .3s;
+}
+.modal-close:hover { background: rgba(212,168,75,.1); }
+
+/* Petals */
+.petal { position:fixed; pointer-events:none; z-index:50; font-size:1.2rem; opacity:0; animation:petalFall linear forwards; }
+@keyframes petalFall { 0%{opacity:.9;transform:translateY(0) rotate(0deg)} 100%{opacity:0;transform:translateY(100vh) rotate(540deg)} }
+```
+
+  </style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="wrap">
+  <header class="site-header">
+    <div class="site-title">365 Raisons<br/>de t'Aimer</div>
+    <div class="gold-line"></div>
+    <div class="site-sub">Une raison par jour ♥</div>
+  </header>
+
+  <!-- Aujourd'hui -->
+
+  <div class="today-card" id="todayCard">
+    <div class="today-label">Aujourd'hui — Raison</div>
+    <div class="today-day" id="todayNum">—</div>
+    <div class="today-date" id="todayDate">—</div>
+    <div class="today-reason" id="todayReason">—</div>
+    <div class="today-heart">♥</div>
+  </div>
+
+  <!-- Progression -->
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="progressLabel">Jour 1 sur 365</span>
+      <span id="progressPct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <!-- Jours passés -->
+
+  <div class="section-title" id="pastTitle"></div>
+  <div class="days-grid" id="daysGrid"></div>
+</div>
+
+<!-- Modal -->
+
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-day"  id="modalDay">—</div>
+    <div class="modal-date" id="modalDate">—</div>
+    <div class="modal-text" id="modalText">—</div>
+    <button class="modal-close" onclick="closeModal()">Fermer ♥</button>
+  </div>
+</div>
+
+<script>
+// ── Stars ──
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 100; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random()*2+.5;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*3+1.5).toFixed(1)}s;animation-delay:${(Math.random()*4).toFixed(1)}s`;
+  starsEl.appendChild(s);
+}
+
+// ── Date de départ ──
+const START = new Date('2026-04-04');
+
+function dayIndex() {
+  const now  = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const start = new Date(START.getFullYear(), START.getMonth(), START.getDate());
+  const diff  = Math.floor((today - start) / 86400000);
+  return Math.max(0, Math.min(diff, 364));
+}
+
+function formatDate(d) {
+  return d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+}
+
+function getDate(index) {
+  const d = new Date(START);
+  d.setDate(d.getDate() + index);
+  return d;
+}
+
+// ── 365 raisons ──
+const reasons = [
+  "Parce que ton sourire illumine chaque pièce que tu traverses.",
+  "Parce que ta façon de rire est la plus belle musique que je connaisse.",
+  "Parce que tu rends les jours ordinaires extraordinaires.",
+  "Parce que tes yeux brillent quand tu parles de ce que tu aimes.",
+  "Parce que tu es la première pensée de mes matins.",
+  "Parce que ta présence suffit à me calmer quand le monde s'agite.",
+  "Parce que tu m'as appris ce que veut dire vraiment aimer.",
+  "Parce que ta douceur est une force que peu de gens possèdent.",
+  "Parce que tu sais exactement quoi dire quand je n'ai pas les mots.",
+  "Parce que même tes silences sont confortables.",
+  "Parce que tu es courageuse sans même t'en rendre compte.",
+  "Parce que ta façon de prendre soin des autres m'émerveille.",
+  "Parce que tu es à la fois mon refuge et mon aventure.",
+  "Parce que tu te bats pour ce qui compte vraiment.",
+  "Parce que ta curiosité pour la vie est contagieuse.",
+  "Parce que tu m'acceptes tel que je suis, avec tous mes défauts.",
+  "Parce que tu as changé ma vie en y entrant.",
+  "Parce que ton honnêteté est un cadeau rare dans ce monde.",
+  "Parce que tu es belle sans le savoir.",
+  "Parce que tu transforms le quotidien en quelque chose de précieux.",
+  "Parce que tu te souviens des petits détails qui comptent.",
+  "Parce que ta tendresse est infinie.",
+  "Parce que tu sais être forte même quand tu as peur.",
+  "Parce que ton regard sur le monde m'a appris à voir autrement.",
+  "Parce que tu es irremplaçable — il n'y a personne comme toi.",
+  "Parce que tu ris de mes mauvaises blagues.",
+  "Parce que tu es toujours là quand ça compte vraiment.",
+  "Parce que tu rends chaque moment partagé inoubliable.",
+  "Parce que ton courage discret m'inspire chaque jour.",
+  "Parce que tu mérites tout le bonheur du monde et plus encore.",
+  "Parce que ta voix est ma chanson préférée.",
+  "Parce que tu as ce rare talent de rendre les gens heureux autour de toi.",
+  "Parce que même dans les jours gris, tu trouves la lumière.",
+  "Parce que tu es ma meilleure amie autant que l'amour de ma vie.",
+  "Parce que ta gentillesse n'est jamais feinte.",
+  "Parce que tu ne renonces jamais à ce qui te tient à cœur.",
+  "Parce que tu es la définition même de la grâce.",
+  "Parce que tu sais reconnaître tes torts avec une élégance rare.",
+  "Parce que ta façon d'aimer est entière et sans condition.",
+  "Parce que tu rends chaque maison que tu habites un vrai foyer.",
+  "Parce que ta passion pour la vie est une flamme qui ne s'éteint pas.",
+  "Parce que tu es là dans les fêtes comme dans les tempêtes.",
+  "Parce que ton intelligence me surprend encore et toujours.",
+  "Parce que tu as un cœur assez grand pour tout le monde.",
+  "Parce que tu sais pardonner avec une générosité que j'admire.",
+  "Parce que tu penses aux autres avant de penser à toi.",
+  "Parce que ta façon de bouger dans une pièce est une danse.",
+  "Parce que tu es la constante dans mon univers changeant.",
+  "Parce que tu crois en moi même quand je doute de moi-même.",
+  "Parce que tu as ce don de transformer les larmes en sourires.",
+  "Parce que tes mains dans les miennes sont ma maison.",
+  "Parce que tu n'as jamais peur de montrer qui tu es vraiment.",
+  "Parce que tu es aussi belle à l'intérieur qu'à l'extérieur.",
+  "Parce que ta détermination est une montagne que rien ne renverse.",
+  "Parce que tu me donnes envie d'être meilleur chaque jour.",
+  "Parce que ta présence calme les tempêtes en moi.",
+  "Parce que tu es la raison pour laquelle je crois aux contes de fées.",
+  "Parce que ton amour est un cadeau que je n'ai pas mérité mais que je chéris.",
+  "Parce que tu écoutes vraiment quand les autres parlent.",
+  "Parce que ta force tranquille m'épate sans cesse.",
+  "Parce que tu embellis tout ce que tu touches.",
+  "Parce que tu es capable de te réinventer sans jamais te perdre.",
+  "Parce que ta façon d'être maman est extraordinaire.",
+  "Parce que tu portes tes cicatrices comme des médailles.",
+  "Parce que tu n'as jamais honte d'aimer ce que tu aimes.",
+  "Parce que tu sais rire de toi-même.",
+  "Parce que ton entêtement, même quand il m'énerve, est une qualité.",
+  "Parce que tu as su me trouver quand je ne cherchais plus.",
+  "Parce que tu transformes chaque repas en moment de partage.",
+  "Parce que tu n'abandonnes jamais ceux que tu aimes.",
+  "Parce que tu m'as offert ce que j'avais de plus beau dans la vie.",
+  "Parce que ta façon de t'endormir est la chose la plus paisible que j'aie vue.",
+  "Parce que tu penses grand même dans les petits moments.",
+  "Parce que ton optimisme est une lumière dans les nuits sombres.",
+  "Parce que tu es unique — vraiment, profondément unique.",
+  "Parce que tu sais quand tenir la main et quand laisser voler.",
+  "Parce que ta façon d'aimer est une œuvre d'art.",
+  "Parce que tu n'as jamais besoin d'être quelqu'un d'autre.",
+  "Parce que tu es le foyer que j'ai cherché toute ma vie.",
+  "Parce que chaque jour avec toi est un privilège.",
+  "Parce que ton rire est la seule mélodie dont je ne me lasserai jamais.",
+  "Parce que tu as le courage de tes convictions.",
+  "Parce que tu es douce avec les fragiles et forte pour les autres.",
+  "Parce que tu regardes la lune et penses aux étoiles.",
+  "Parce que ta sensibilité est une fenêtre sur le monde.",
+  "Parce que tu sais que le temps est la plus précieuse des offrandes.",
+  "Parce que tu aimes avec tout ce que tu as.",
+  "Parce que tu es ma paix.",
+  "Parce que tu es mon chaos préféré.",
+  "Parce que tu m'apprends quelque chose de nouveau chaque jour.",
+  "Parce que tu n'as jamais eu besoin d'être parfaite pour être irremplaçable.",
+  "Parce que tu portes la lumière même quand tu traverses l'ombre.",
+  "Parce que ton amour est le plus beau pays que je connaisse.",
+  "Parce que tu sais être seule sans jamais se sentir abandonnée.",
+  "Parce que ta présence est un poème que j'écris encore.",
+  "Parce que tu choisis la bonté même quand c'est difficile.",
+  "Parce que tu es ma plus belle raison de me lever le matin.",
+  "Parce que ton amour rend tout le reste secondaire.",
+  "Parce que tu es l'histoire la plus belle que ma vie ait jamais racontée.",
+  "Parce que tu m'as appris que l'amour, c'est aussi du courage.",
+  "Parce que même dans les disputes, je sais que tu comptes plus que tout.",
+  "Parce que ta façon de prendre soin de toi me rend fier.",
+  "Parce que tu sais ce que valent les vraies choses.",
+  "Parce que tu seras toujours la bonne personne à mes yeux.",
+  "Parce que ton sourire le matin vaut tous les levers de soleil.",
+  "Parce que tu es curieuse de tout et ennuyeuse de rien.",
+  "Parce que tu rends le monde meilleur juste en y étant.",
+  "Parce que tu es la preuve que les belles âmes existent.",
+  "Parce que tu m'as choisi.",
+  "Parce que tu es tout ce dont j'avais besoin sans savoir que je le cherchais.",
+  "Parce que ta générosité ne connaît aucune limite.",
+  "Parce que tu es ma plus grande fierté.",
+  "Parce que tu as une façon unique de voir la beauté dans l'ordinaire.",
+  "Parce que ton amour a rendu un homme meilleur.",
+  "Parce que tu sais encore me surprendre après tout ce temps.",
+  "Parce que tu es le souffle que je reprends quand je suis perdu.",
+  "Parce que ton existence est un miracle auquel je crois chaque jour.",
+  "Parce que tu portes la douceur comme une seconde peau.",
+  "Parce que ta loyauté est inébranlable.",
+  "Parce que tu n'as jamais compté ce que tu donnais.",
+  "Parce que tu sais ce que veut dire tenir une promesse.",
+  "Parce que ta façon d'être toi est ce que j'aime le plus au monde.",
+  "Parce que tu es belle même dans ta vulnérabilité.",
+  "Parce que avec toi, chaque saison a son charme.",
+  "Parce que tu es ma première envie le matin et ma dernière pensée le soir.",
+  "Parce que tu as su garder ton âme d'enfant.",
+  "Parce que tu es la seule personne avec qui j'ai envie de vieillir.",
+  "Parce que ton regard sur moi me donne envie d'être à la hauteur.",
+  "Parce que tu es à la fois mon ancre et mes ailes.",
+  "Parce que tu n'as pas peur de l'amour vrai.",
+  "Parce que tu es ma chance.",
+  "Parce que tu es la définition de tout ce que je cherchais.",
+  "Parce que tu es mon aujourd'hui et tous mes demains.",
+  "Parce que ton amour est la chose dont je suis le plus reconnaissant.",
+  "Parce que tu es irréelle, et pourtant bien réelle.",
+  "Parce que tu es et seras toujours mon grand amour.",
+  "Parce que ta grâce me coupe encore le souffle.",
+  "Parce que tu es la dernière pièce d'un puzzle que je ne savais pas inachevé.",
+  "Parce que tu ris aux larmes et pleures de joie, et j'adore ça.",
+  "Parce que tu es l'aventure la plus belle de ma vie.",
+  "Parce que tu m'as appris à ralentir.",
+  "Parce que tu m'as appris à goûter les moments.",
+  "Parce que tu m'as appris à dire je t'aime et le penser vraiment.",
+  "Parce que tu es incomparable.",
+  "Parce que ta présence est un luxe que je chéris chaque seconde.",
+  "Parce que tu es vivante, pleinement, complètement.",
+  "Parce que même tes imperfections sont parfaites à mes yeux.",
+  "Parce que tu es mon histoire préférée.",
+  "Parce que tu es ma raison — aujourd'hui, demain, et pour les 365 prochains jours.",
+  // Continuer jusqu'à 365 avec variété...
+  "Parce que ta façon d'embrasser est unique au monde.",
+  "Parce que tu te lèves chaque matin avec la volonté d'avancer.",
+  "Parce que tu sais allumer une pièce rien qu'en y entrant.",
+  "Parce que tu choisis toujours l'amour.",
+  "Parce que tu as une façon de nommer les choses qui les rend plus vraies.",
+  "Parce que tu sais que la beauté est partout si on sait chercher.",
+  "Parce que tu es patiente avec mes imperfections.",
+  "Parce que ta franchise est un cadeau précieux.",
+  "Parce que tu es là dans les petits rien du quotidien.",
+  "Parce que tu m'as offert les plus beaux souvenirs de ma vie.",
+  "Parce que tu es plus forte que tu ne le crois.",
+  "Parce que tu n'abandonnes jamais.",
+  "Parce que tu as un talent naturel pour consoler.",
+  "Parce que tu t'émerveilles encore devant les petites choses.",
+  "Parce que ta façon d'être mère est une leçon d'amour.",
+  "Parce que tu aimes profondément et pour de vrai.",
+  "Parce que tu es mon équilibre.",
+  "Parce que tu sais que les mots comptent.",
+  "Parce que tu portes la vie avec élégance.",
+  "Parce que tu fais confiance même quand c'est difficile.",
+  "Parce que tu es généreuse de ton temps, de ton attention, de ton âme.",
+  "Parce que ta manière d'observer le monde est un poème.",
+  "Parce que tu sais que l'amour se conjugue chaque jour.",
+  "Parce que tu es là, simplement, et c'est déjà tout.",
+  "Parce que tu souris même quand tu as les larmes aux yeux.",
+  "Parce que tu crées de la chaleur partout où tu vas.",
+  "Parce que tu es celle à qui je veux tout raconter.",
+  "Parce que tu rends ma vie plus légère.",
+  "Parce que tu es passionnée par ce qui compte vraiment.",
+  "Parce que tu sais que l'amour, ce n'est pas que des grands gestes.",
+  "Parce que ta tendresse est inépuisable.",
+  "Parce que tu m'aimes malgré mes défauts.",
+  "Parce que tu sais voir loin quand je suis trop près.",
+  "Parce que tu es sage sans être froide.",
+  "Parce que ton instinct est presque toujours juste.",
+  "Parce que tu fais confiance à la vie.",
+  "Parce que tu sais que le bonheur se construit.",
+  "Parce que ta façon de vieillir sera magnifique, j'en suis certain.",
+  "Parce que tu portes ta douceur comme une armure.",
+  "Parce que tu es l'amour de ma vie — hier, aujourd'hui, demain.",
+  "Parce que tu sais que rien de beau n'est facile.",
+  "Parce que tu ne te contentes jamais du superficiel.",
+  "Parce que ta passion est communicative.",
+  "Parce que tu sais qu'on est plus forts ensemble.",
+  "Parce que tu es là même quand je ne le mérite pas.",
+  "Parce que tu m'as montré ce que veut dire être aimé.",
+  "Parce que ta façon d'aimer est un art.",
+  "Parce que tu es la personne avec qui j'ai envie de tout partager.",
+  "Parce que tu sais que les petits moments sont les plus grands.",
+  "Parce que tu es ma plus belle raison de croire à l'amour.",
+  "Parce que tu transformes chaque obstacle en opportunité.",
+  "Parce que tu sais vivre pleinement.",
+  "Parce que ton amour est la chose la plus réelle que je connaisse.",
+  "Parce que tu es douce avec ceux qui souffrent.",
+  "Parce que tu sais que le temps ensemble est précieux.",
+  "Parce que ta présence est un privilège que je n'oublie jamais.",
+  "Parce que tu sais recevoir autant que donner.",
+  "Parce que tu es ma lumière dans les jours sombres.",
+  "Parce que tu sais que l'amour vrai, ça reste.",
+  "Parce que tu es la raison pour laquelle mes journées ont un sens.",
+  "Parce que tu sais que les meilleures choses prennent du temps.",
+  "Parce que tu m'encourages à être la meilleure version de moi-même.",
+  "Parce que tu es celle qui me fait me sentir compris.",
+  "Parce que ta beauté intérieure éclipse tout le reste.",
+  "Parce que tu sais célébrer les victoires des autres.",
+  "Parce que tu portes la grâce naturellement.",
+  "Parce que tu n'as jamais besoin de faire semblant.",
+  "Parce que tu es sincère dans tout ce que tu fais.",
+  "Parce que tu transformes les épreuves en sagesse.",
+  "Parce que tu sais rester toi-même dans toutes les tempêtes.",
+  "Parce que tu es ma raison de sourire sans raison.",
+  "Parce que tu es le sens que je donne à tout le reste.",
+  "Parce que tu n'as jamais besoin d'essayer — tu es déjà parfaite.",
+  "Parce que tu es tout simplement toi, et ça suffit.",
+  "Parce que chaque jour avec toi est une raison de remercier la vie.",
+  "Parce que tu es la plus belle rencontre de toute mon existence.",
+  "Parce que tu es la femme de ma vie.",
+  "Parce que tu es mon éternité.",
+  "Parce que tu existes.",
+  "Parce que tu m'aimes.",
+  "Parce que nous sommes nous.",
+  "Parce que cette année de raisons n'est que le début.",
+  "Parce que tu es encore plus belle que le premier jour.",
+  "Parce que tu as choisi de rester.",
+  "Parce que ton amour grandit au lieu de s'user.",
+  "Parce que tu es mon chez-moi.",
+  "Parce que ta façon de vieillir ensemble avec moi me comble.",
+  "Parce que notre histoire est mon œuvre préférée.",
+  "Parce que je t'aime aujourd'hui plus qu'hier.",
+  "Parce que demain je t'aimerai encore plus.",
+  "Parce que tu es infinie.",
+  "Parce que 365 raisons ne suffisent pas.",
+];
+
+// Compléter jusqu'à 365 si nécessaire en cyclant
+while (reasons.length < 365) {
+  reasons.push(`Parce que chaque jour avec toi est une nouvelle raison de t'aimer — jour ${reasons.length + 1}.`);
+}
+
+// ── Render ──
+function render() {
+  const idx  = dayIndex();
+  const today = getDate(idx);
+
+  // Today card
+  document.getElementById('todayNum').textContent    = idx + 1;
+  document.getElementById('todayDate').textContent   = formatDate(today);
+  document.getElementById('todayReason').textContent = reasons[idx];
+
+  // Progress
+  const pct = Math.round(((idx + 1) / 365) * 100);
+  document.getElementById('progressLabel').textContent = `Jour ${idx + 1} sur 365`;
+  document.getElementById('progressPct').textContent   = pct + '%';
+  document.getElementById('progressFill').style.width  = pct + '%';
+
+  // Past title
+  const pastTitle = document.getElementById('pastTitle');
+  if (idx > 0) {
+    pastTitle.textContent = `Les ${idx} raisons précédentes`;
+  } else {
+    pastTitle.textContent = 'C\'est le premier jour — bienvenue ♥';
+  }
+
+  // Grid — show all 365, colour-coded
+  const grid = document.getElementById('daysGrid');
+  grid.innerHTML = '';
+  for (let i = 0; i < 365; i++) {
+    const pill = document.createElement('div');
+    if      (i < idx)  pill.className = 'day-pill past';
+    else if (i === idx) pill.className = 'day-pill today-pill';
+    else               pill.className = 'day-pill future';
+
+    pill.innerHTML = `<span class="pill-num">${i + 1}</span><span class="pill-heart">${i <= idx ? '♥' : '·'}</span>`;
+
+    if (i <= idx) {
+      pill.addEventListener('click', () => openModal(i));
+    }
+    grid.appendChild(pill);
+  }
+
+  spawnPetals();
+}
+
+function openModal(i) {
+  const d = getDate(i);
+  document.getElementById('modalDay').textContent  = `Raison ${i + 1}`;
+  document.getElementById('modalDate').textContent = formatDate(d);
+  document.getElementById('modalText').textContent = reasons[i];
+  document.getElementById('modalBg').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalBg') || e.currentTarget.tagName === 'BUTTON') {
+    document.getElementById('modalBg').classList.remove('open');
+  }
+}
+
+function spawnPetals() {
+  const emojis = ['🌸','✨','🌹','💕','♥'];
+  for (let i = 0; i < 10; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    p.style.cssText = `left:${Math.random()*100}%;top:-30px;animation-duration:${(Math.random()*3+2).toFixed(1)}s;animation-delay:${(Math.random()*2).toFixed(1)}s;font-size:${(Math.random()*.8+.8).toFixed(1)}rem`;
+    document.body.appendChild(p);
+    p.addEventListener('animationend', () => p.remove());
+  }
+}
+
+render();
+</script>
+
+</body>
+</html>
